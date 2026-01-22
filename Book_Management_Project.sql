@@ -32,7 +32,12 @@ select a.a_name, b.b_name
 from authors a
 left join books b on a.author_id = b.b_author_id;
 
---4.Publishers Table
+--4.Count number of books written by each author.
+select a_name,count(book_id) as total_book 
+from books b inner join authors a on a.author_id = b.b_author_id
+group by a_name
+
+--5.Publishers Table
 create table publishers(
        publish_id int primary key,
        p_name varchar(20) not null,
@@ -48,14 +53,20 @@ insert into publishers values(2,'rajesh','India','mumbai','111 ravi apartment st
 insert into publishers values(3,'jayam','India','Delhi','342 elankarai street','https://www.worldslove.com',+91-2765323893);
 select*from publishers;
 
---5.Display books along with publisher country only for Indian publishers.
+--6.Display books along with publisher country only for Indian publishers.
 select distinct b_name,p_country
 from books b 
 inner join publishers p on p.publish_id=b.b_publish_id
 where p_country='india'
 and b_name is not null;
 
---6.Book Table
+--7.Find publishers without books.
+select p_name,b_name
+from books b inner join publishers p on p.publish_id= b.b_publish_id
+where b_name is null
+
+
+--8.Book Table
 create table books(
         book_id int primary key identity(1001,1),
         b_name varchar(30),
@@ -79,14 +90,20 @@ insert into books values('Two Worlds apart','5th edition','06-07-2015',1200.00,2
 
 select*from books
 
---7.Display book title,book edition name,author name,publisher name.
+--9.Display book title,book edition name,author name,publisher name.
 select b_name as book_title,b_edition_name,a_name as author_name
 ,p_name as publisher_name 
 from books b
 inner join authors a on b.b_author_id = a.author_id
 inner join publishers p on b.b_publish_id=p.publish_id;
 
---8.Platforms Table
+--10.Display books available on both platform and store.
+select platform_name,name as store_name,b_name
+from books b
+inner join platforms p on b.book_id= p.b_platform
+inner join stores s  on b.book_id=s.b_store
+
+--11.Platforms Table
 create table platforms(
        platform_id int,
        platform_name varchar(30),
@@ -96,16 +113,16 @@ create table platforms(
 --Insert data
 insert into platforms values(1,'amazon','https://www.amazon12.com',1002)
 insert into platforms values(2,'pearson','https://www.pearson.com',1003)
-insert into platforms values(3,'o\reilly','https://www.oreily33.com',1001)
+insert into platforms values(3,'o''reilly','https://www.oreily33.com',1001)
 select*from platforms
 
---9.Display authors, books, and platforms using only LEFT JOINs.
+--12.Display authors, books, and platforms using only LEFT JOINs.
 select b_name as book_title,a_name,platform_name 
 from authors a  
 left join books b on a.author_id = b.b_author_id
 left join platforms pl on b.book_id=pl.p_book_id;
 
---10.Stores Table
+--13.Stores Table
 create table stores(
       store_id int,
       name varchar(30),
@@ -129,6 +146,7 @@ inner join stores s
 on b.book_id=s.s_book_id
 group by s.name
 ) t;
+
 
 
 
