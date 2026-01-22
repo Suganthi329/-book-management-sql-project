@@ -27,7 +27,7 @@ insert into authors values
 (3,'nenjam','dsferfd@gmail.com','2000-03-04','male','American','https://arunakaran11.com','writer');
 select*from authors;
 
--- 3. Sample Query
+-- 3. Show author name and book title, including authors without books.
 select a.a_name, b.b_name
 from authors a
 left join books b on a.author_id = b.b_author_id;
@@ -48,7 +48,7 @@ insert into publishers values(2,'rajesh','India','mumbai','111 ravi apartment st
 insert into publishers values(3,'jayam','India','Delhi','342 elankarai street','https://www.worldslove.com',+91-2765323893);
 select*from publishers;
 
---5.Sample Query
+--5.Display books along with publisher country only for Indian publishers.
 select distinct b_name,p_country
 from books b 
 inner join publishers p on p.publish_id=b.b_publish_id
@@ -79,7 +79,7 @@ insert into books values('Two Worlds apart','5th edition','06-07-2015',1200.00,2
 
 select*from books
 
---7.Sample Query
+--7.Display book title,book edition name,author name,publisher name.
 select b_name as book_title,b_edition_name,a_name as author_name
 ,p_name as publisher_name 
 from books b
@@ -99,7 +99,7 @@ insert into platforms values(2,'pearson','https://www.pearson.com',1003)
 insert into platforms values(3,'o\reilly','https://www.oreily33.com',1001)
 select*from platforms
 
---9.Sample Query
+--9.Display authors, books, and platforms using only LEFT JOINs.
 select b_name as book_title,a_name,platform_name 
 from authors a  
 left join books b on a.author_id = b.b_author_id
@@ -120,7 +120,7 @@ insert into stores values(2,'nobel','kerala,India',+91-2435466,1002),
 insert into stores values(3,'knowledge','mumbai,India',+91-5768789,1001);
 select*from stores;
 
---Sample Query
+--11.Find total value of books per store.
 select * from
 (
 select s.name as store_namae,sum(b.b_current_price) as total_price 
@@ -129,5 +129,6 @@ inner join stores s
 on b.book_id=s.s_book_id
 group by s.name
 ) t;
+
 
 
